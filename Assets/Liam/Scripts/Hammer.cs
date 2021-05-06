@@ -11,6 +11,12 @@ public class Hammer : MonoBehaviour
     private Transform hammer;
 
     [SerializeField]
+    private Transform hammerHitboxPrefab;
+
+    [SerializeField]
+    private Transform hammerHitboxLocation;
+
+    [SerializeField]
     private Animator anim;
 
     private bool hammerSwung = false;
@@ -50,5 +56,10 @@ public class Hammer : MonoBehaviour
     public void ToggleHammerSwung()
     {
         hammerSwung = !hammerSwung;
+    }
+
+    public void SpawnHammerHitbox()
+    {
+        Instantiate(hammerHitboxPrefab, hammerHitboxLocation.position, hammerHitboxLocation.rotation);
     }
 }

@@ -218,6 +218,7 @@ GameObject:
   - component: {fileID: 519820599}
   - component: {fileID: 519820600}
   - component: {fileID: 519820601}
+  - component: {fileID: 519820602}
   m_Layer: 0
   m_Name: PlayerSprite
   m_TagString: Untagged
@@ -336,6 +337,23 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &519820602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519820597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebd6293ba01712843829a8792e1a1677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockbackForce: 0
+  hammer: {fileID: 435899394}
+  hammerHitboxPrefab: {fileID: 5520809349842673761, guid: d0e4b5a2b50bbfd43be3dad87cb3e8ab, type: 3}
+  hammerHitboxLocation: {fileID: 984539574}
+  anim: {fileID: 519820601}
 --- !u!1 &984539573
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,7 +366,7 @@ GameObject:
   - component: {fileID: 984539576}
   - component: {fileID: 984539575}
   m_Layer: 0
-  m_Name: HammerHitbox
+  m_Name: HitboxLocation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -435,7 +453,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 0.5849056, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -455,7 +473,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1258628638}
   - component: {fileID: 1258628637}
-  - component: {fileID: 1258628640}
   - component: {fileID: 1258628639}
   m_Layer: 0
   m_Name: Player
@@ -514,21 +531,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!114 &1258628640
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1258628636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebd6293ba01712843829a8792e1a1677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  knockbackForce: 0
-  hammer: {fileID: 435899394}
-  anim: {fileID: 519820601}
 --- !u!1 &1323979490
 GameObject:
   m_ObjectHideFlags: 0
