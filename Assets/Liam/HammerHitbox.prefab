@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2950959634009346929}
   m_Layer: 0
   m_Name: HammerHitbox
-  m_TagString: Untagged
+  m_TagString: HammerHitbox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5305749190924761374}
   m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.05, y: 1.568, z: 0}
-  m_LocalScale: {x: 0.7, y: 3.37, z: 1}
+  m_LocalPosition: {x: 0.05, y: 1.3657, z: 0}
+  m_LocalScale: {x: 1.7152919, y: 3.37, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -97,6 +97,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifetime: 0.05
+  forceOfSwing: 0
+  directionOfSwing: {x: 0, y: 0}
 --- !u!61 &2950959634009346929
 BoxCollider2D:
   m_ObjectHideFlags: 0

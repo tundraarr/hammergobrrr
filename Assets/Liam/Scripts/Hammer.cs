@@ -6,12 +6,13 @@ public class Hammer : MonoBehaviour
 {
     [SerializeField]
     private float knockbackForce;
+    private Vector2 swingDirection;
 
     [SerializeField]
     private Transform hammer;
 
     [SerializeField]
-    private Transform hammerHitboxPrefab;
+    private HammerHitbox hammerHitboxPrefab;
 
     [SerializeField]
     private Transform hammerHitboxLocation;
@@ -51,6 +52,7 @@ public class Hammer : MonoBehaviour
     private void SwingHammer()
     {
         anim.Play("HammerSwing");
+        swingDirection = (hammer.transform.up).normalized;
     }
 
     public void ToggleHammerSwung()
@@ -60,6 +62,8 @@ public class Hammer : MonoBehaviour
 
     public void SpawnHammerHitbox()
     {
-        Instantiate(hammerHitboxPrefab, hammerHitboxLocation.position, hammerHitboxLocation.rotation);
+        HammerHitbox hitboxInstance = Instantiate(hammerHitboxPrefab, hammerHitboxLocation.position, hammerHitboxLocation.rotation);
+        hitboxInstance.forceOfSwing = knockbackForce;
+        hitboxInstance.directionOfSwing = swingDirection;
     }
 }
