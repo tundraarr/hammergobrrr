@@ -27,8 +27,7 @@ public class HammerHitbox : MonoBehaviour
     {
         if(other.CompareTag("Enemy"))
         {
-            Debug.Log("Collision occurred");
-            other.GetComponent<Enemy>().GetHit(forceOfSwing, directionOfSwing);
+            other.GetComponent<Enemy>().GetHit(forceOfSwing, directionOfSwing, true);
         }
     }
 }

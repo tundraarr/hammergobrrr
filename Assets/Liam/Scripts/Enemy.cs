@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
     public FixedJoint2D joint;
 
     public Transform player;
-    public HashSet<Enemy> neighbours;
+    public List<Enemy> neighbours;
 
     public EnemyType enemyType;
 
@@ -33,7 +33,13 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        MoveTowardsPlayer();
+        if(!joint.enabled)
+        {
+            MoveTowardsPlayer();
+        }
+
+        //Keep the clamp if we want to implement - hitting multiple enemies in a cluster causes the knockback to be greater
+        //Vector2.ClampMagnitude(rb.velocity, 10);
     }
 
     //TODO: Probably fix the bug where the enemy slows down when they approach player because normalization is fked
@@ -46,24 +52,30 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void GetHit(float forceAmount, Vector2 direction)
+    public void GetHit(float forceAmount, Vector2 direction, bool isMultiHit)
     {
-        Vector2 gettingHitForce = forceAmount * direction;
-        rb.AddForce(gettingHitForce);
+        if (!joint.enabled)
+        {
+            Vector2 gettingHitForce = forceAmount * direction;
+            rb.AddForce(gettingHitForce);
+            hitStunned = true;
+            StopAllCoroutines();
+            StartCoroutine(HitStunTimer(hitStunDuration));
+        }
+        else if(joint.enabled)
+        {
+            FindObjectOfType<EnemyClusterManager>().HandleClusterHit(this, forceAmount, direction);
+        }
+    }
+
+    //Should only really be used for applying to enemies that are part of a cluster
+    public void ApplyHitStun()
+    {
         hitStunned = true;
         StopAllCoroutines();
         StartCoroutine(HitStunTimer(hitStunDuration));
-        SpreadHit(forceAmount, direction);
     }
 
-    //Spread hit effect to all other enemies attached together
-    public void SpreadHit(float forceAmount, Vector2 direction)
-    {
-        //if(joint.attachedRigidbody)
-        //{
-        //    joint.attachedRigidbody.GetComponent<Enemy>().GetHit(forceAmount, direction);
-        //}
-    }
 
     private IEnumerator HitStunTimer(float time)
     {
@@ -75,9 +87,21 @@ public class Enemy : MonoBehaviour
     {
         //Only trigger this code if the collision occurs between enemies
         //TODO: Make it so that it only triggers when they are in hitstun (been smacked by the player's hammer)
-        if(collision.gameObject.CompareTag("Enemy") && hitStunned)
+        if(collision.gameObject.CompareTag("Enemy"))
         {
-            FindObjectOfType<EnemyClusterManager>().HandleCollision(this, collision.gameObject.GetComponent<Enemy>());
+            Enemy incomingEnemy = collision.gameObject.GetComponent<Enemy>();
+            Debug.Log("Bubble collided: " + collision.gameObject);
+
+            if(incomingEnemy.hitStunned)
+            {
+                FindObjectOfType<EnemyClusterManager>().HandleCollision(this, incomingEnemy);
+                if(!neighbours.Contains(incomingEnemy))
+                {
+                    neighbours.Add(incomingEnemy);
+                }
+            }
+            
         }
     }
+
 }

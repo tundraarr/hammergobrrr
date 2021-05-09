@@ -14,6 +14,7 @@ public class EnemyClusterManager : MonoBehaviour
         {
             //Check if they are both in the same cluster - a consequence of the collision checks occuring for both caller and collider
             //TODO: Probably find a solution to solve this issue so that only the caller OR the collider calls HandleCollision
+            //EDIT: Maybe this is already fixed with the constraint of the incoming collision needing to be hit stunned?
             if (c.enemies.Contains(caller) && c.enemies.Contains(collider))
             {
                 return false;
@@ -65,6 +66,7 @@ public class EnemyClusterManager : MonoBehaviour
     public void JoinCluster(Cluster existingCluster, Enemy joiner)
     {
         existingCluster.enemies.Add(joiner);
+        SetJoint(existingCluster, joiner);
     }
     
     //Cluster and Cluster Join
@@ -73,6 +75,9 @@ public class EnemyClusterManager : MonoBehaviour
         existingCluster.enemies.UnionWith(joinerCluster.enemies);
         //Remove the joiner cluster after it has merged with the existing cluster
         enemyClusters.Remove(joinerCluster);
+
+        //Assign the core to the newly joined enemies
+        AssignClusterCore(existingCluster, existingCluster.GetClusterCore());
     }
 
     //Create a new cluster
@@ -88,6 +93,9 @@ public class EnemyClusterManager : MonoBehaviour
         AssignClusterCore(newCluster, collider);
     }
 
+    //Update the the neighbours for each enemy in the cluster
+
+
     //Assign cluster core
     //Conditions for assigning new cluster core: 
     //When a new cluster is made | When clusters are merged together | When a cluster core is to be destroyed |
@@ -96,10 +104,11 @@ public class EnemyClusterManager : MonoBehaviour
         cluster.SetClusterCore(core);
     }
 
-    //Add joint to new enemies of a cluster to the core
+    //Add the core as the joint to new enemies of a cluster and turn on their fixed joint 2d component 
     public void SetJoint(Cluster cluster, Enemy joiner)
     {
         joiner.joint.connectedBody = cluster.GetClusterCore().rb;
+        joiner.joint.enabled = true;
     }
 
     public void DestroyClusteredEnemies()
@@ -107,8 +116,19 @@ public class EnemyClusterManager : MonoBehaviour
 
     }
 
-    //Trigger event for all enemies in a cluster
+    //Spread hit among all enemies in cluster
+    public void HandleClusterHit(Enemy enemy, float forceAmount, Vector2 direction)
+    {
+        //Trying out: just hit stun all enemies in cluster but don't apply the force to any of them except the one hit
 
+        foreach (Cluster c in enemyClusters)
+        {
+            if (c.enemies.Contains(enemy))
+            {
+                c.HitCluster(forceAmount, direction);
+            }
+        }
+    }
 
     private void Update()
     {
