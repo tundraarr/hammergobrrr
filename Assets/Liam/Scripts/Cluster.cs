@@ -28,7 +28,9 @@ public class Cluster
         foreach(Enemy e in enemies)
         {
             //e.GetHit(forceAmount, direction, false);
-            e.ApplyHitStun();
+            //Exclude the core from having hit stunned applied so that it recieves the force of impact
+            if(e != clusterCore)
+                e.ApplyHitStun();
         }
 
         clusterCore.GetHit(forceAmount, direction, false);

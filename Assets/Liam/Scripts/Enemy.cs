@@ -54,13 +54,19 @@ public class Enemy : MonoBehaviour
 
     public void GetHit(float forceAmount, Vector2 direction, bool isMultiHit)
     {
+        //Basically, if the enemy is a core or by itself then apply the hit force from hammer
+        //Otherwise, find the core and apply the knockback force to it
         if (!joint.enabled)
         {
-            Vector2 gettingHitForce = forceAmount * direction;
-            rb.AddForce(gettingHitForce);
-            hitStunned = true;
-            StopAllCoroutines();
-            StartCoroutine(HitStunTimer(hitStunDuration));
+            //Check if the enemy has already been hit and don't apply the force if that is the case
+            if(!hitStunned)
+            {
+                Vector2 gettingHitForce = forceAmount * direction;
+                rb.AddForce(gettingHitForce);
+                hitStunned = true;
+                StopAllCoroutines();
+                StartCoroutine(HitStunTimer(hitStunDuration));
+            }
         }
         else if(joint.enabled)
         {
