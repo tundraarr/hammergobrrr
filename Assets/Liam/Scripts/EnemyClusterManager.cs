@@ -140,8 +140,8 @@ public class EnemyClusterManager : MonoBehaviour
         newCluster.enemies.CopyTo(enemiesArray);
         Enemy newCore = enemiesArray[0];
         //===========================================================================================================================
-
         AssignClusterCore(newCluster, newCore);
+        enemyClusters.Add(newCluster);
     }
 
     //Assign cluster core
@@ -290,6 +290,7 @@ public class EnemyClusterManager : MonoBehaviour
             Debug.Log("Remainer: " + e);
         }
 
+        enemyClusters.Remove(existingCluster);
         //Reuse existing cluster for one of the remaining enemy groups
         //TODO: SET CORE
         //existingCluster.enemies.Clear();
