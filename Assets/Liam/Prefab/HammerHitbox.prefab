@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76bfe8bad8c6f2e45881bf68322f3e53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetime: 0.05
+  lifetime: 0.028
   forceOfSwing: 0
   directionOfSwing: {x: 0, y: 0}
 --- !u!61 &2950959634009346929

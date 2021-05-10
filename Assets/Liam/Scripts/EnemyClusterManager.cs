@@ -272,12 +272,13 @@ public class EnemyClusterManager : MonoBehaviour
         if (miniClusters.Count == 0)
         {
             enemyClusters.Remove(currentCluster);
+        } 
+        else
+        {
+            //Split the remaining enemies into clusters and then end collision handling
+            SplitCluster(miniClusters, currentCluster);
         }
 
-        //Split the remaining enemies into clusters and then end collision handling
-        SplitCluster(miniClusters, currentCluster);
-
-        Debug.Log("Number of miniclusters: " + miniClusters.Count);
         //return miniClusters;
     }
 
