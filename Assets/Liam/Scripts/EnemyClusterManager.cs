@@ -13,8 +13,6 @@ public class EnemyClusterManager : MonoBehaviour
         foreach (Cluster c in enemyClusters)
         {
             //Check if they are both in the same cluster - a consequence of the collision checks occuring for both caller and collider
-            //TODO: Probably find a solution to solve this issue so that only the caller OR the collider calls HandleCollision
-            //EDIT: Maybe this is already fixed with the constraint of the incoming collision needing to be hit stunned?
             if (c.enemies.Contains(caller) && c.enemies.Contains(collider))
             {
                 return false;
