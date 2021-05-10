@@ -6,7 +6,8 @@ public enum EnemyType
 {
     GREEN,
     RED,
-    BLUE
+    BLUE,
+    ANY
 }
 
 public class Enemy : MonoBehaviour
@@ -98,12 +99,20 @@ public class Enemy : MonoBehaviour
             Enemy incomingEnemy = collision.gameObject.GetComponent<Enemy>();
             Debug.Log("Bubble collided: " + collision.gameObject);
 
-            if(incomingEnemy.hitStunned)
+            //Add neighbours on any attack collision 
+            //i.e. hitting enemy A into enemy B, both add each other as neighbours
+            //But limit collision handling to only when the hit object collides with another enemy - basically only call collision handling once
+            //for one of the collision parties
+            if(incomingEnemy.hitStunned || hitStunned)
             {
-                FindObjectOfType<EnemyClusterManager>().HandleCollision(this, incomingEnemy);
-                if(!neighbours.Contains(incomingEnemy))
+                if (!neighbours.Contains(incomingEnemy))
                 {
                     neighbours.Add(incomingEnemy);
+                }
+
+                if(incomingEnemy.hitStunned)
+                {
+                    FindObjectOfType<EnemyClusterManager>().HandleCollision(this, incomingEnemy);
                 }
             }
             

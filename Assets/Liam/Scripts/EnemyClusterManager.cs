@@ -10,6 +10,7 @@ public class EnemyClusterManager : MonoBehaviour
     //Handle the collission
     public bool HandleCollision(Enemy caller, Enemy collider)
     {
+        Debug.Log("The caller: " + caller + " The Collider: " + collider);
         foreach (Cluster c in enemyClusters)
         {
             //Check if they are both in the same cluster - a consequence of the collision checks occuring for both caller and collider
@@ -56,8 +57,44 @@ public class EnemyClusterManager : MonoBehaviour
             JoinCluster(colliderCluster, callerCluster);
         }
 
+        //Check if this collision will cause enemies to be destroyed
+        HashSet<Enemy> enemiesToDestroy = DefineDestroyableEnemies(caller);
+        if (enemiesToDestroy != null)
+        {
+            Cluster clusterToCheck = GetCluster(caller);
+            DestroyClusteredEnemies(enemiesToDestroy, clusterToCheck);
+
+            //Handle remaining enemies in the cluster if any
+            Queue<HashSet<Enemy>> remainingEnemies = new Queue<HashSet<Enemy>>();
+            StartCoroutine(DefineNewClusters(clusterToCheck, remainingEnemies));
+            ////Remove the cluster if there are no more enemies remaining in it
+            //if (remainingEnemies.Count == 0)
+            //{
+            //    enemyClusters.Remove(clusterToCheck);
+            //    return true;
+            //}
+
+            ////Split the remaining enemies into clusters and then end collision handling
+            //SplitCluster(remainingEnemies, clusterToCheck);
+            return true;
+        }
+
         //Returns true if the method completed properly
         return true;
+    }
+
+    //Find the cluster a enemy is from
+    private Cluster GetCluster(Enemy enemy)
+    {
+        foreach(Cluster c in enemyClusters)
+        {
+            if(c.enemies.Contains(enemy))
+            {
+                return c;
+            }
+        }
+
+        return null;
     }
 
     //Enemy and Cluster Join
@@ -78,21 +115,34 @@ public class EnemyClusterManager : MonoBehaviour
         AssignClusterCore(existingCluster, existingCluster.GetClusterCore());
     }
 
-    //Create a new cluster
-    public void CreateCluster(Enemy caller, Enemy collider)
+    //Create a new cluster from two enemies
+    private void CreateCluster(Enemy caller, Enemy collider)
     {
         Cluster newCluster = new Cluster();
         newCluster.enemies.Add(caller);
         newCluster.enemies.Add(collider);
 
-        enemyClusters.Add(newCluster);
-
         //Make the collider the core
         AssignClusterCore(newCluster, collider);
+
+        enemyClusters.Add(newCluster);
     }
 
-    //Update the the neighbours for each enemy in the cluster
+    //Used to create a cluster out of a HashSet - mainly used when a cluster is destroyed and remaining enemies are to become clusters
+    private void CreateCluster(HashSet<Enemy> enemies)
+    {
+        Cluster newCluster = new Cluster();
+        newCluster.enemies = enemies;
 
+        //Really disgusting way of having to select a new core for the cluster.
+        //Result of using hashset for keeping track of enemies in a cluster - should definitely look for a better way to do this
+        Enemy[] enemiesArray = new Enemy[newCluster.enemies.Count]; 
+        newCluster.enemies.CopyTo(enemiesArray);
+        Enemy newCore = enemiesArray[0];
+        //===========================================================================================================================
+
+        AssignClusterCore(newCluster, newCore);
+    }
 
     //Assign cluster core
     //Conditions for assigning new cluster core: 
@@ -109,9 +159,148 @@ public class EnemyClusterManager : MonoBehaviour
         joiner.joint.enabled = true;
     }
 
-    public void DestroyClusteredEnemies()
+    //Define the enemies to destroy
+    public HashSet<Enemy> DefineDestroyableEnemies(Enemy caller)
     {
+        HashSet<Enemy> allSameTypeNeighbours = new HashSet<Enemy>();
+        //From the enemy that has collided
+        GetNeighbours(caller, allSameTypeNeighbours, caller.enemyType);
+        if(allSameTypeNeighbours.Count >= 3)
+        {
+            foreach(Enemy n in allSameTypeNeighbours)
+            {
+                Debug.Log("The same type neighbours are: " + n);
+            }
+            Debug.Log("Destroy Enemies");
+            return allSameTypeNeighbours;
+        }
 
+        return null;
+    }
+
+    //Recursive method to return all neighbours of the same enemy type or any neighbours
+    private void GetNeighbours(Enemy enemy, HashSet<Enemy>neighboursList, EnemyType enemyType=EnemyType.ANY)
+    {
+        Debug.Log("I am: " + enemy + "  and I have this many neighbours: " + enemy.neighbours.Count);
+        neighboursList.Add(enemy);
+        foreach(Enemy en in neighboursList)
+        {
+            Debug.Log("Status: " + en);
+        }
+
+        foreach(Enemy neighbour in enemy.neighbours)
+        {
+            //If there is a specified enemy type
+            if(neighbour != null)
+            {
+                if(enemyType != EnemyType.ANY)
+                {
+                    Debug.Log("Has type");
+                    if(neighbour.enemyType == enemy.enemyType && !neighboursList.Contains(neighbour))
+                    {
+                        GetNeighbours(neighbour, neighboursList, neighbour.enemyType);
+                    }
+                }
+                else
+                {
+                    Debug.Log("Has No Type");
+                    if(!neighboursList.Contains(neighbour))
+                        GetNeighbours(neighbour, neighboursList);
+                }
+            }
+        }
+    }
+
+    //Destroy the enemies in a cluster
+    public void DestroyClusteredEnemies(HashSet<Enemy> enemies, Cluster associatedCluster)
+    {
+        foreach (Enemy e in enemies)
+        {
+            if (associatedCluster.enemies.Contains(e))
+            {
+                associatedCluster.enemies.Remove(e);
+                Destroy(e.gameObject);
+            }
+        }
+    }
+
+    //Return a list of all the mini clusters present after enemies have been destroyed in the main cluster
+    //EDIT: Will have to make this a coroutine so that it updates after the deleted enemies - this solution is wack af
+    private IEnumerator DefineNewClusters(Cluster currentCluster, Queue<HashSet<Enemy>> miniClusters)
+    {
+        yield return null;
+        //Queue<HashSet<Enemy>> miniClusters = new Queue<HashSet<Enemy>>();
+        Debug.Log("Hold this shit: " + currentCluster.enemies.Count);
+
+        HashSet<Enemy> checkedEnemies = new HashSet<Enemy>();
+
+        if(currentCluster.enemies.Count > 0)
+        {
+            //Check whether there are any indivudal enemies remaining
+            //Individuals will be removed from existing cluster and have their joint turned off so they can move independently again
+            foreach (Enemy enemy in currentCluster.enemies) //NOTE: THIS RUNS DUPES
+            {
+                //Free the enemy if they are no longer connected to the cluster 
+                if (enemy.neighbours.Count == 0)
+                {
+                    currentCluster.enemies.Remove(enemy);
+                    enemy.neighbours.Clear();
+                    enemy.joint.connectedBody = null;
+                    enemy.joint.enabled = false;
+                }
+                else
+                {
+                    //Find what the new mini clusters are and add them to the List
+                    if(!checkedEnemies.Contains(enemy))
+                    {
+                        HashSet<Enemy> enemyGroup = new HashSet<Enemy>();
+                        GetNeighbours(enemy, enemyGroup);
+
+                        foreach (Enemy e in enemyGroup)
+                        {
+                            Debug.Log("A r neighbourslist: " + e);
+                            checkedEnemies.Add(e);
+                        }
+
+                        miniClusters.Enqueue(enemyGroup);
+                    }
+                }
+            }
+        }
+
+        //Remove the cluster if there are no more enemies remaining in it
+        if (miniClusters.Count == 0)
+        {
+            enemyClusters.Remove(currentCluster);
+        }
+
+        //Split the remaining enemies into clusters and then end collision handling
+        SplitCluster(miniClusters, currentCluster);
+
+        Debug.Log("Number of miniclusters: " + miniClusters.Count);
+        //return miniClusters;
+    }
+
+    //Split a cluster - occurs when enemies are destroyed in a cluster
+    private void SplitCluster(Queue<HashSet<Enemy>> remainingEnemies, Cluster existingCluster)
+    {
+        Debug.Log("Size of queue: " + remainingEnemies.Count);
+        foreach (Enemy e in remainingEnemies.Peek())
+        {
+            Debug.Log("Remainer: " + e);
+        }
+
+        //Reuse existing cluster for one of the remaining enemy groups
+        //TODO: SET CORE
+        //existingCluster.enemies.Clear();
+        //existingCluster.enemies = remainingEnemies.Dequeue();
+        //existingCluster.SetClusterCore()
+
+        //For every other group of enemies, make a new cluster for them
+        foreach (HashSet<Enemy> enemies in remainingEnemies)
+        {
+            CreateCluster(enemies);
+        }
     }
 
     //Spread hit among all enemies in cluster

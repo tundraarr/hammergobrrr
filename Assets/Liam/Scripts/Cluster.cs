@@ -26,6 +26,7 @@ public class Cluster
     {
         clusterCore = enemy;
         clusterCore.joint.enabled = false;
+        clusterCore.joint.connectedBody = null;
 
         foreach(Enemy e in enemies)
         {

@@ -98,7 +98,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.49637097
 --- !u!1 &14976661966817066
 GameObject:
   m_ObjectHideFlags: 0
@@ -147,7 +147,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 100
   rb: {fileID: 14976661966817071}
+  joint: {fileID: 0}
   player: {fileID: 0}
+  neighbours: []
+  enemyType: 0
   hitStunned: 0
   hitStunDuration: 0.7
 --- !u!50 &14976661966817071
@@ -186,4 +189,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.5264899
