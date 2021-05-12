@@ -22,4 +22,10 @@ public class EnemySpawner : MonoBehaviour
         Enemy enemyInstance = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], spawnLocation);
         enemyInstance.player = playerRef;
     }
+
+    //Enable random dispersion of behavious
+    private void GiveRandomBehaviour()
+    {
+
+    }
 }
