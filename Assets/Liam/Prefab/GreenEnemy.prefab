@@ -111,8 +111,9 @@ GameObject:
   - component: {fileID: 14976661966817070}
   - component: {fileID: 14976661966817071}
   - component: {fileID: 14976661966817068}
+  - component: {fileID: -283925876098177629}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: GreenEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -147,7 +148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 50
   rb: {fileID: 14976661966817071}
-  joint: {fileID: 0}
+  joint: {fileID: -283925876098177629}
   player: {fileID: 0}
   neighbours: []
   enemyType: 0
@@ -190,3 +191,21 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5264899
+--- !u!255 &-283925876098177629
+FixedJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 14976661966817066}
+  m_Enabled: 0
+  serializedVersion: 4
+  m_EnableCollision: 1
+  m_ConnectedRigidBody: {fileID: 0}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_AutoConfigureConnectedAnchor: 1
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: 0, y: 0}
+  m_DampingRatio: 0
+  m_Frequency: 0
