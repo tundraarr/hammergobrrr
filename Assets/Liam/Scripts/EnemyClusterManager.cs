@@ -6,6 +6,8 @@ public class EnemyClusterManager : MonoBehaviour
 {
     //Keep track of enemy clusters
     public HashSet<Cluster> enemyClusters = new HashSet<Cluster>();
+    //Used in score system
+    public int clusterDestroyCount = 0;
 
     //Handle the collission
     public bool HandleCollision(Enemy caller, Enemy collider)
@@ -220,6 +222,7 @@ public class EnemyClusterManager : MonoBehaviour
             {
                 associatedCluster.enemies.Remove(e);
                 Destroy(e.gameObject);
+                clusterDestroyCount += 1;
             }
         }
     }
