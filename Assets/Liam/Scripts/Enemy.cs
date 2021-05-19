@@ -12,8 +12,7 @@ public enum EnemyType
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField]
-    private float moveSpeed;
+    public float moveSpeed;
 
     public Rigidbody2D rb;
 
@@ -27,6 +26,14 @@ public class Enemy : MonoBehaviour
     public bool hitStunned = false;
     public float hitStunDuration;
 
+    public EnemyBehaviour behaviour;
+
+    private void Start()
+    {
+        behaviour.SetPlayer(player);
+        behaviour.SetSelf(this);
+    }
+
     private void Update()
     {
 
@@ -34,9 +41,11 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(!joint.enabled)
+        if(!joint.enabled && !hitStunned)
         {
-            MoveTowardsPlayer();
+            Debug.Log(gameObject + " I should be running my behaviour" + behaviour);
+            //MoveTowardsPlayer();
+            behaviour.RunBehaviour();
         }
 
         //Keep the clamp if we want to implement - hitting multiple enemies in a cluster causes the knockback to be greater
