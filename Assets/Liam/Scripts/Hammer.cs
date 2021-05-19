@@ -31,12 +31,17 @@ public class Hammer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!anim.GetCurrentAnimatorStateInfo(0).IsName("HammerSwing"))
+        //if (!anim.GetCurrentAnimatorStateInfo(0).IsName("HammerSwing"))
+        //{
+        //    AimHammer();
+        //}
+
+        if (!hammerSwung)
         {
             AimHammer();
         }
 
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             SwingHammer();
         }
@@ -51,8 +56,26 @@ public class Hammer : MonoBehaviour
 
     private void SwingHammer()
     {
-        anim.Play("HammerSwing");
+        //anim.Play("HammerSwing");
         swingDirection = (hammer.transform.up).normalized;
+        Vector3 swingPlace = new Vector3(0f, 1f, 1f);
+        StartCoroutine(RotateHammer(Quaternion.Euler(swingPlace), 0.6f));
+    }
+
+    IEnumerator RotateHammer(Quaternion endValue, float duration)
+    {
+        hammerSwung = true;
+        float time = 0;
+        Quaternion startValue = transform.rotation;
+
+        while (time < duration)
+        {
+            transform.rotation = Quaternion.Lerp(startValue, endValue, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        transform.rotation = endValue;
+        hammerSwung = false;
     }
 
     public void ToggleHammerSwung()
