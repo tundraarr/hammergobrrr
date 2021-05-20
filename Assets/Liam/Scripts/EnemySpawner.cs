@@ -39,10 +39,10 @@ public class EnemySpawner : MonoBehaviour
                 behaviour = new ZigzagBehaviour();
                 break;
             case EnemyBehaviourCodes.PRESET:
-                behaviour = new ChaseBehaviour();
+                behaviour = new PresetBehaviour();
                 break;
             case EnemyBehaviourCodes.BOUNCE:
-                behaviour = new ChaseBehaviour();
+                behaviour = new BounceBehaviour();
                 break;
         }
 

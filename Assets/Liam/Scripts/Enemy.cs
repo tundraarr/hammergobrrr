@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
     public float moveSpeed;
 
     public Rigidbody2D rb;
+    public Collider2D coll;
 
     public FixedJoint2D joint;
 
@@ -43,8 +44,6 @@ public class Enemy : MonoBehaviour
     {
         if(!joint.enabled && !hitStunned)
         {
-            Debug.Log(gameObject + " I should be running my behaviour" + behaviour);
-            //MoveTowardsPlayer();
             behaviour.RunBehaviour();
         }
 
