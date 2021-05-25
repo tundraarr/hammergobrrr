@@ -86,6 +86,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 14976661966817070, guid: 6a42408021e86e143ae7c977bfa0b40d, type: 3}
+      propertyPath: coll
+      value: 
+      objectReference: {fileID: 6443522014075989722}
+    - target: {fileID: 14976661966817070, guid: 6a42408021e86e143ae7c977bfa0b40d, type: 3}
       propertyPath: joint
       value: 
       objectReference: {fileID: 1882600296}
@@ -99,12 +103,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 14976661966817070, guid: 6a42408021e86e143ae7c977bfa0b40d, type: 3}
       propertyPath: moveSpeed
-      value: 100
+      value: 150
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a42408021e86e143ae7c977bfa0b40d, type: 3}
 --- !u!1 &6443522014075989724 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 14976661966817066, guid: 6a42408021e86e143ae7c977bfa0b40d, type: 3}
+  m_PrefabInstance: {fileID: 6439804489156045302}
+  m_PrefabAsset: {fileID: 0}
+--- !u!58 &6443522014075989722 stripped
+CircleCollider2D:
+  m_CorrespondingSourceObject: {fileID: 14976661966817068, guid: 6a42408021e86e143ae7c977bfa0b40d, type: 3}
   m_PrefabInstance: {fileID: 6439804489156045302}
   m_PrefabAsset: {fileID: 0}

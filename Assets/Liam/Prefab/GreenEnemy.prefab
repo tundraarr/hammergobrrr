@@ -146,14 +146,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b08a929def65aaf47b1a11ff64852637, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 50
+  moveSpeed: 75
   rb: {fileID: 14976661966817071}
+  coll: {fileID: 14976661966817068}
   joint: {fileID: -283925876098177629}
   player: {fileID: 0}
   neighbours: []
   enemyType: 0
   hitStunned: 0
   hitStunDuration: 0.7
+  behaviour: {fileID: 0}
 --- !u!50 &14976661966817071
 Rigidbody2D:
   serializedVersion: 4
