@@ -6,12 +6,18 @@ using TMPro;
 
 public class Score : MonoBehaviour
 {
-    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI gameScore;
     public EnemyClusterManager enemyClusterManager;
+    public TextMeshProUGUI endScore;
 
     // Update is called once per frame
     void Update()
     {
-        scoreText.text = "Score: " + enemyClusterManager.clusterDestroyCount;
+        gameScore.text = enemyClusterManager.clusterDestroyCount.ToString();
+    }
+
+    public void GameOverScore()
+    {
+        endScore.text = "Score: " + enemyClusterManager.clusterDestroyCount;
     }
 }

@@ -1095,7 +1095,6 @@ GameObject:
   - component: {fileID: 830186266}
   - component: {fileID: 830186268}
   - component: {fileID: 830186267}
-  - component: {fileID: 830186269}
   m_Layer: 5
   m_Name: Score
   m_TagString: Untagged
@@ -1219,20 +1218,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 830186265}
   m_CullTransparentMesh: 1
---- !u!114 &830186269
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 830186265}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba42a11766f85774caf4d37a5f4ccf0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scoreText: {fileID: 830186267}
-  enemyClusterManager: {fileID: 677119202}
 --- !u!1 &855211317
 GameObject:
   m_ObjectHideFlags: 0
@@ -1504,8 +1489,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba42a11766f85774caf4d37a5f4ccf0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 1356349269}
+  gameScore: {fileID: 1356349269}
   enemyClusterManager: {fileID: 677119202}
+  endScore: {fileID: 830186267}
 --- !u!1 &984539573
 GameObject:
   m_ObjectHideFlags: 0
@@ -2214,6 +2200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameOverUI: {fileID: 2060665178}
   score: {fileID: 1356349266}
+  setGameOverScore: {fileID: 950165751}
 --- !u!1001 &1282775119
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2558,7 +2545,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 255.3, y: 83.18}
+  m_SizeDelta: {x: 589, y: 268}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1356349269
 MonoBehaviour:
@@ -2580,7 +2567,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Score: 0'
+  m_text: Score
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2589,8 +2576,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2607,15 +2594,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60
-  m_fontSizeBase: 60
+  m_fontSize: 120
+  m_fontSizeBase: 120
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -2643,7 +2630,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 18.4328, w: 12.288544}
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -3240,6 +3227,7 @@ GameObject:
   - component: {fileID: 2060665181}
   - component: {fileID: 2060665180}
   - component: {fileID: 2060665179}
+  - component: {fileID: 2060665183}
   m_Layer: 5
   m_Name: GameOver
   m_TagString: Untagged
@@ -3328,6 +3316,21 @@ RectTransform:
   m_AnchoredPosition: {x: 294.5, y: 134}
   m_SizeDelta: {x: 589, y: 268}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2060665183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060665178}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba42a11766f85774caf4d37a5f4ccf0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameScore: {fileID: 1356349269}
+  enemyClusterManager: {fileID: 677119202}
+  endScore: {fileID: 830186267}
 --- !u!1 &2074585930
 GameObject:
   m_ObjectHideFlags: 0
