@@ -6,21 +6,29 @@ public class EnemySpawner : MonoBehaviour
 {
     public Enemy[] enemyPrefabs;
     public EnemyBehaviourCodes[] behaviours;
-    public Transform spawnLocation;
+    public Transform[] spawnLocations;
     public Transform playerRef;
+    public float spawnFrequency;
+    public float spawnTimer;
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(spawnTimer <= 0)
         {
             SpawnRandomEnemy();
+            spawnTimer = spawnFrequency;
+        }
+        else
+        {
+            spawnTimer -= Time.deltaTime;
         }
     }
 
+
     public void SpawnRandomEnemy()
     {
-        Enemy enemyInstance = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], spawnLocation);
+        Enemy enemyInstance = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], spawnLocations[Random.Range(0, spawnLocations.Length)]);
         enemyInstance.player = playerRef;
         enemyInstance.behaviour = GiveRandomBehaviour();
     }
@@ -40,9 +48,6 @@ public class EnemySpawner : MonoBehaviour
                 break;
             case EnemyBehaviourCodes.PRESET:
                 behaviour = new PresetBehaviour();
-                break;
-            case EnemyBehaviourCodes.BOUNCE:
-                behaviour = new BounceBehaviour();
                 break;
         }
 

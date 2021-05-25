@@ -22,11 +22,8 @@ public class Hammer : MonoBehaviour
 
     private bool hammerSwung = false;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public float attackTimer;
+    public float currentTimer;
 
     // Update is called once per frame
     void Update()
@@ -36,10 +33,23 @@ public class Hammer : MonoBehaviour
             AimHammer();
         }
 
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0) && currentTimer <= 0)
         {
             SwingHammer();
         }
+        else
+        {
+            currentTimer -= Time.deltaTime;
+        }
+
+        //if(currentTimer > 0 )
+        //{
+        //    currentTimer -= Time.deltaTime;
+        //}
+        //else
+        //{
+        //    hammerSwung = false;
+        //}
     }
 
     private void AimHammer()
@@ -47,12 +57,14 @@ public class Hammer : MonoBehaviour
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 mouseDirection = mousePos - (Vector2)transform.position;
         hammer.transform.up = mouseDirection;
+        hammerSwung = true;
     }
 
     private void SwingHammer()
     {
         anim.Play("HammerSwing");
         swingDirection = (hammer.transform.up).normalized;
+        currentTimer = attackTimer;
     }
 
     public void ToggleHammerSwung()
