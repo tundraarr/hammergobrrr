@@ -25,15 +25,17 @@ public class Hammer : MonoBehaviour
     public float attackTimer;
     public float currentTimer;
 
+    public MenuUI pauseCheck;
+
     // Update is called once per frame
     void Update()
     {
-        if(!anim.GetCurrentAnimatorStateInfo(0).IsName("HammerSwing"))
+        if(!anim.GetCurrentAnimatorStateInfo(0).IsName("HammerSwing") && pauseCheck.GameIsPaused == false)
         {
             AimHammer();
         }
 
-        if(Input.GetMouseButtonDown(0) && currentTimer <= 0)
+        if(Input.GetMouseButtonDown(0) && currentTimer <= 0 && pauseCheck.GameIsPaused == false)
         {
             SwingHammer();
         }

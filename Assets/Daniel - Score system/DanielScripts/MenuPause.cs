@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MenuPause : MonoBehaviour
 {
@@ -36,6 +37,11 @@ public class MenuPause : MonoBehaviour
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         pauseStatus = true;
+    }
+
+    public void restartGame()
+    {
+        SceneManager.LoadScene("LiamScene 1");
     }
 
     public void quit()

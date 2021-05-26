@@ -33,6 +33,10 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 0.02
       objectReference: {fileID: 0}
+    - target: {fileID: 14976661036151860, guid: 6a42408021e86e143ae7c977bfa0b40d, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 14976661036151862, guid: 6a42408021e86e143ae7c977bfa0b40d, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -68,6 +72,10 @@ PrefabInstance:
     - target: {fileID: 14976661966817066, guid: 6a42408021e86e143ae7c977bfa0b40d, type: 3}
       propertyPath: m_Name
       value: RedEnemy Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 14976661966817066, guid: 6a42408021e86e143ae7c977bfa0b40d, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 14976661966817068, guid: 6a42408021e86e143ae7c977bfa0b40d, type: 3}
       propertyPath: m_Radius

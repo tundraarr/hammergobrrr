@@ -2,15 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuUI : MonoBehaviour
 {
-    public static bool GameIsPaused = false;
+    public bool GameIsPaused = false;
 
     public GameObject gameUI;
     public GameObject pauseMenuUI;
-
-    public Scene gameScene;
 
     // Update is called once per frame
     void Update()
@@ -48,7 +47,9 @@ public class MenuUI : MonoBehaviour
 
     public void Restart()
     {
-        SceneManager.LoadScene("LiamScene 1");
+        SceneManager.LoadScene(1);
+        Time.timeScale = 1f;
+        GameIsPaused = false;
     }
 
     public void QuitGame()

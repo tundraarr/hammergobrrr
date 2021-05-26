@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 14976661036151863}
   - component: {fileID: 14976661036151862}
   - component: {fileID: 14976661036151849}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 14976661966817071}
   - component: {fileID: 14976661966817068}
   - component: {fileID: -283925876098177629}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GreenEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
