@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerCollision : MonoBehaviour
 {
     public GameObject gameOverUI;
-    public GameObject score;
+    public GameObject midGameUI;
     public Score setGameOverScore;
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -14,7 +14,7 @@ public class PlayerCollision : MonoBehaviour
             Debug.Log("Player collided, dies");
             gameOverUI.SetActive(true);
             gameObject.SetActive(false);
-            score.SetActive(false);
+            midGameUI.SetActive(false);
             setGameOverScore.GameOverScore();
         }        
     }
